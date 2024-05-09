@@ -18,7 +18,6 @@ public class ProductController {
 
     @GetMapping
     public List<Product> getAllProducts() {
-    	System.out.println("inside");
         return productService.getAllProducts();
     }
 
@@ -35,5 +34,14 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
+    }
+    
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    	var existingProduct = productService.getProductById(id);
+    	existingProduct.setName(product.getName());
+    	existingProduct.setPrice(product.getPrice());
+    	return productService.saveProduct(existingProduct);
+
     }
 }
